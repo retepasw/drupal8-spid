@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * The install file for the spid_pasw module.
+ */
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_install().
+ */
+function spid_pasw_install() {
+
+  user_role_revoke_permissions(AccountInterface::AUTHENTICATED_ROLE, ['change own password']);
+
+  // Disable the open registration to the site and store the original setting.
+  $user_settings = \Drupal::configFactory()->getEditable('user.settings');
+  $config = \Drupal::configFactory()->getEditable('spid_pasw.settings');
+  $config->set('user_register_original', $user_settings->get('register'));
+  $user_settings->set('register', 'admin_only');
+  $user_settings->save();
+  $config->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function spid_pasw_uninstall() {
+
+  // Restore the original user registration directive.
+  $user_settings = \Drupal::configFactory()->getEditable('user.settings');
+  $config = \Drupal::config('spid_pasw.settings');
+  $user_settings->set('register', $config->get('user_register_original'));
+  $user_settings->save();
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function spid_pasw_requirements($phase) {
+  $requirements = [];
+
+  if ($phase == 'install') {
+    spid_pasw_check_library();
+    if (!class_exists('SimpleSAML_Configuration')) {
+      $requirements['simplesamlphp_library'] = [
+        'description' => t('SimpleSAMLphp module requires the simplesamlphp library. See README file for installation instructions.'),
+        'severity' => REQUIREMENT_ERROR,
+      ];
+    }
+  }
+
+  if ($phase == 'runtime') {
+    $config = \Drupal::config('spid_pasw.settings');
+    if (!$config->get('activate')) {
+      $requirements['spid_pasw'] = [
+        'severity'    => REQUIREMENT_INFO,
+        'title'       => 'spid_pasw',
+        'value'       => t('SimpleSAMLphp authentication is NOT activated'),
+        'description' => t('It can be activated on the <a href="@config_page">configuration page</a>.', ['@config_page' => Url::fromRoute('spid_pasw.admin_settings')]),
+      ];
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Check if the SimpleSAMLphp library can be found.
+ *
+ * Fallback for when the library was not found via Composer.
+ */
+function spid_pasw_check_library() {
+  if (!class_exists('SimpleSAML_Configuration')) {
+    $dir = Settings::get('simplesamlphp_dir');
+    include_once $dir . '/lib/_autoload.php';
+  }
+}
+
+/**
+ * Rebuild spid_pasw_event_subscriber service.
+ */
+function spid_pasw_update_8001() {
+  \Drupal::service('kernel')->invalidateContainer();
+}
+
+/**
+ * Rebuild router for changed admin form.
+ */
+function spid_pasw_update_8002() {
+  \Drupal::service('router.builder')->rebuild();
+}

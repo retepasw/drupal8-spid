@@ -1,0 +1,20 @@
+services:
+  spid_pasw.manager:
+    class: Drupal\spid_pasw\Service\SpidPaswManager
+    arguments: ['@config.factory']
+  spid_pasw.drupalauth:
+    class: Drupal\spid_pasw\Service\SimplesamlphpDrupalAuth
+    arguments: ['@spid_pasw.manager', '@config.factory', '@entity_type.manager', '@logger.channel.spid_pasw', '@externalauth.externalauth', '@current_user']
+  spid_pasw_event_subscriber:
+    class: Drupal\spid_pasw\EventSubscriber\SimplesamlSubscriber
+    arguments: ['@spid_pasw.manager', '@current_user', '@config.factory', '@logger.channel.spid_pasw']
+    tags:
+      - {name: event_subscriber}
+  spid_pasw_externalauth_event_subscriber:
+    class: Drupal\spid_pasw\EventSubscriber\SimplesamlExternalauthSubscriber
+    arguments: ['@spid_pasw.manager', '@spid_pasw.drupalauth', '@config.factory', '@logger.channel.spid_pasw']
+    tags:
+      - {name: event_subscriber}
+  logger.channel.spid_pasw:
+    parent: logger.channel_base
+    arguments: ['spid_pasw']

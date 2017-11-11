@@ -1,0 +1,11 @@
+spid-button:
+  version: 1.x
+  css:
+    layout:
+      vendor/agid/css/spid-sp-access-button.min.css: {}
+  js:
+    js/spid_bottone.js: {}
+    vendor/agid/js/spid-sp-access-button.min.js: {}
+    
+  dependencies:
+    - core/jquery

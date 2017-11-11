@@ -1,0 +1,29 @@
+spid_pasw.admin_settings:
+  path: '/admin/config/people/spid_pasw'
+  defaults:
+    _title: 'Impostazioni SPiD PASW'
+    _form: '\Drupal\spid_pasw\Form\BasicSettingsForm'
+  requirements:
+    _permission: 'administer simpleSAMLphp authentication'
+spid_pasw.admin_settings_local:
+  path: '/admin/config/people/spid_pasw/local'
+  defaults:
+    _title: 'Local authentication'
+    _form: '\Drupal\spid_pasw\Form\LocalSettingsForm'
+  requirements:
+    _permission: 'administer simpleSAMLphp authentication'
+spid_pasw.admin_settings_sync:
+  path: '/admin/config/people/spid_pasw/sync'
+  defaults:
+    _title: 'User info and syncing'
+    _form: '\Drupal\spid_pasw\Form\SyncingSettingsForm'
+  requirements:
+    _permission: 'administer simpleSAMLphp authentication'
+spid_pasw.saml_login:
+  path: '/saml_login'
+  defaults:
+    _controller: '\Drupal\spid_pasw\Controller\SpidPaswController::authenticate'
+  requirements:
+    _access: 'TRUE'
+  options:
+     no_cache: TRUE

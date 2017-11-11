@@ -1,0 +1,16 @@
+spid_pasw.admin_settings_tab:
+  route_name: spid_pasw.admin_settings
+  title: Settings
+  base_route: spid_pasw.admin_settings
+spid_pasw.admin_settings_basic:
+  title: Basic settings
+  route_name: spid_pasw.admin_settings
+  parent_id: spid_pasw.admin_settings_tab
+spid_pasw.admin_settings_local:
+  title: Local authentication
+  route_name: spid_pasw.admin_settings_local
+  parent_id: spid_pasw.admin_settings_tab
+spid_pasw.admin_settings_sync:
+  title: User info and syncing
+  route_name: spid_pasw.admin_settings_sync
+  parent_id: spid_pasw.admin_settings_tab

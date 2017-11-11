@@ -1,0 +1,54 @@
+id: d7_spid_pasw
+label: Impostazioni SPiD PASW
+migration_tags:
+  - Drupal 7
+source:
+  plugin: variable
+  constants:
+    activate: false
+  variables:
+    - spid_pasw_authlevel
+    - spid_pasw_authuri
+    - spid_pasw_authsource_infocert
+    - spid_pasw_authsource_poste
+    - spid_pasw_authsource_tim
+    - spid_pasw_authsource_sielte
+    - spid_pasw_authsource_aruba
+    - spid_pasw_authsource_namirial
+    - spid_pasw_authsource_italia
+    - spid_pasw_firstname
+    - spid_pasw_lastname
+    - spid_pasw_place
+    - spid_pasw_date
+    - spid_pasw_cf
+    - spid_pasw_province
+    - spid_pasw_authsource
+    - spid_pasw_rolepopulation
+    - spid_pasw_roleevaleverytime
+    - spid_pasw_registerusers
+    - spid_pasw_allowsetdrupalpwd
+    - spid_pasw_allowdefaultlogin
+    - spid_pasw_allowdefaultloginroles
+    - spid_pasw_allowdefaultloginusers
+    - spid_pasw_logoutgotourl
+process:
+  activate: 'constants/activate' # Always migrate "activate" setting to false, to avoid lockouts
+  auth_source: spid_pasw_authsource
+  login_link_display_name: spid_pasw_login_link_display_name
+  role/population: spid_pasw_rolepopulation
+  role/eval_every_time: spid_pasw_roleevaleverytime
+  register_users: spid_pasw_registerusers
+  allow/set_drupal_pwd: spid_pasw_allowsetdrupalpwd
+  allow/default_login: spid_pasw_allowdefaultlogin
+  allow/default_login_roles:
+    plugin: migration
+    migration: d7_user_role
+    source: spid_pasw_allowdefaultloginroles
+  allow/default_login_users: spid_pasw_allowdefaultloginusers
+  logout_goto_url: spid_pasw_logoutgotourl
+destination:
+  plugin: config
+  config_name: spid_pasw.settings
+migration_dependencies:
+  required:
+    - d7_user_role

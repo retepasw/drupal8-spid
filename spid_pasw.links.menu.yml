@@ -1,0 +1,5 @@
+spid_pasw.admin_settings:
+  title: 'Impostazioni SPiD PASW'
+  parent: user.admin_index
+  description: 'Control the various settings of the simpleSAMLphp authentication module'
+  route_name: spid_pasw.admin_settings

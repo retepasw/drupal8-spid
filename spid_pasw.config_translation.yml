@@ -1,0 +1,5 @@
+spid_pasw.admin_settings:
+  title: 'Impostazioni SPiD PASW'
+  base_route_name: spid_pasw.admin_settings
+  names:
+    - spid_pasw.settings
