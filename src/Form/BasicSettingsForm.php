@@ -47,14 +47,24 @@ class BasicSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('auth_source'),
       '#description' => $this->t('The name of the source to use (Usually in authsources.php).'),
     ];
-
+    $form['basic']['authlevel'] = array(
+        '#type' => 'radios',
+        '#title' => t('Livello di autenticazione SPID'),
+        '#default_value' => $config->get('authlevel'),
+        '#description' => t('Autenticazione livello 1 o 2'),
+		'#options' => array(
+			'SpidL1' => 'Livello 1',
+			'SpidL2' => 'Livello 2',
+		),
+    );
+	/*
     $form['basic']['login_link_display_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Federated Log In Link Display Name'),
       '#default_value' => $config->get('login_link_display_name'),
       '#description' => $this->t('Text to display as the link to the external federated login page.'),
     ];
-
+	*/
     $form['basic']['header_no_cache'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use Header with: Cache-Control: no-cache'),
@@ -98,6 +108,7 @@ class BasicSettingsForm extends ConfigFormBase {
 
     $config->set('activate', $form_state->getValue('activate'));
     $config->set('auth_source', $form_state->getValue('auth_source'));
+    $config->set('authlevel', $form_state->getValue('authlevel'));
     //$config->set('login_link_display_name', $form_state->getValue('login_link_display_name'));
     $config->set('debug', $form_state->getValue('debug'));
     $config->set('register_users', $form_state->getValue('register_users'));

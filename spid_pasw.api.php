@@ -76,7 +76,7 @@ function hook_spid_pasw_allow_login($attributes) {
  * @param \Drupal\user\UserInterface $account
  *   The pre-existing Drupal user to be SAML-enabled.
  */
-function hook_simplesamphp_auth_account_authname_alter(&$authname, \Drupal\user\UserInterface $account) {
+function hook_spid_pasw_account_authname_alter(&$authname, \Drupal\user\UserInterface $account) {
   $authname = $account->mail;
 }
 

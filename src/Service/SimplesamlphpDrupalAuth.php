@@ -5,6 +5,7 @@ namespace Drupal\spid_pasw\Service;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\user\UserInterface;
+use Drupal\user\Entity\User;
 use Drupal\Core\Session\AccountInterface;
 use Psr\Log\LoggerInterface;
 use Drupal\externalauth\ExternalAuthInterface;
@@ -212,10 +213,13 @@ class SimplesamlphpDrupalAuth {
    *   SimpleSAMLphp settings.
    */
   public function synchronizeUserAttributes(AccountInterface $account, $force = FALSE) {
+	$do_save = FALSE;
     $sync_mail = $force || $this->config->get('sync.mail');
-    $sync_user_name = $force || $this->config->get('sync.user_name');
+	// TEMP PASW never sync user name
+    $sync_user_name = FALSE; //$force || $this->config->get('sync.user_name');
 
     if ($sync_user_name) {
+	  $do_save = TRUE;
       $name = $this->simplesamlAuth->getDefaultName();
       if ($name) {
         $existing = FALSE;
@@ -239,6 +243,7 @@ class SimplesamlphpDrupalAuth {
     }
 
     if ($sync_mail) {
+	  $do_save = TRUE;
       $mail = $this->simplesamlAuth->getDefaultEmail();
       if ($mail) {
         $account->setEmail($mail);
@@ -249,7 +254,20 @@ class SimplesamlphpDrupalAuth {
       }
     }
 
-    if ($sync_mail || $sync_user_name) {
+    $fields_cfg_names = ['firstname' => 'name','lastname' => 'familyName','place' => 'placeOfBirth','prov' => 'countyOfBirth','date' => 'dateOfBirth','cf' => 'fiscalNumber'];
+    foreach($fields_cfg_names as $cfg_name => $spid_name) {
+      $field = $this->config->get($cfg_name);
+	  if ($field != '') {
+		$spid_value = $this->simplesamlAuth->getAttribute($spid_name);
+		if ($spid_value) {
+		  $do_save = TRUE;
+		  if ($spid_name == 'fiscalNumber') $spid_value = substr($spid_value, 6);
+		  $account->set($field, $spid_value);
+		}
+	  }
+    }
+
+    if ($do_save) {
       $account->save();
     }
   }

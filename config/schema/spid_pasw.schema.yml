@@ -15,16 +15,19 @@ spid_pasw.settings:
       label: 'Activate authentication via SimpleSAMLphp'
     auth_source:
       type: string
-      label: 'Authentication source for this SP'
+      label: 'Sorgente di autenticazione per questo SP'
+    authlevel:
+      type: string
+      label: 'Livello autenticazione Spid'
 #    login_link_display_name:
 #      type: label
 #      label: 'Federated Log In Link Display Name'
-    user_name:
-      type: string
-      label: 'SimpleSAMLphp attribute to be used as username for the user'
-    unique_id:
-      type: string
-      label: 'SimpleSAMLphp attribute to be used as unique identifier for the user'
+#    user_name:
+#      type: string
+#      label: 'SimpleSAMLphp attribute to be used as username for the user'
+#    unique_id:
+#      type: string
+#      label: 'SimpleSAMLphp attribute to be used as unique identifier for the user'
     mail_attr:
       type: string
       label: 'SimpleSAMLphp attribute to be used as email address for the user'

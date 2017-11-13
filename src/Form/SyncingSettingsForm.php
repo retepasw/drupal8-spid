@@ -30,6 +30,103 @@ class SyncingSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('spid_pasw.settings');
 
+    $form['user_info'] = array(
+      '#type' => 'fieldset',
+      '#title' => $this->t('User info and syncing'),
+      '#collapsible' => FALSE,
+    );
+/*
+    $form['user_info']['username_fiscalnumber'] = array(
+        '#type' => 'checkbox', //checkbox
+        '#title' => $this->t('Utilizza il codice fiscale come nome utente'),
+        '#default_value' => $config->get('username_fiscalnumber', FALSE),
+        '#description' => $this->t('Determina se il nome utente deve coincidere con il codice fiscale.'),
+    );
+*/	
+	$my_fields = array(''=>'nessun campo');
+	$field_map = \Drupal::entityManager()->getFieldMap();
+	$fields = $field_map['user'];
+	//echo '<pre>';
+	//print_r ($user_field_map);
+	foreach ($fields as $name => $field) {
+		if (isset($field['bundles']['user']) && !empty($field['bundles']['user'])) {
+			if (isset($field['type']) && ($field['type']=='string'))
+				if (strncmp('field_', $name, 6) == 0)
+					$my_fields[$name] = $name;
+		}
+	}
+
+    $form['user_info']['firstname'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per nome'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('firstname', 'field_nome'),
+        '#description' => $this->t('Campo da usare per NOME.'),
+    );
+	
+    $form['user_info']['lastname'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per cognome'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('lastname', 'field_cognome'),
+        '#description' => $this->t('Campo da usare per COGNOME.'),
+    );
+	
+    $form['user_info']['place'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per luogo di nascita'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('place', 'field_luogo_di_nascita'),
+        '#description' => $this->t('Campo da usare per LUOGO DI NASCITA.'),
+    );
+	
+    $form['user_info']['prov'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per provincia di nascita'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('prov', 'field_provincia_di'),
+        '#description' => $this->t('Campo da usare per PROVINCIA DI NASCITA.'),
+    );
+	
+	$my_fields = array(''=>'nessun campo');
+	$field_map = \Drupal::entityManager()->getFieldMap();
+	$fields = $field_map['user'];
+	foreach ($fields as $name => $field) {
+		if (isset($field['bundles']['user']) && !empty($field['bundles']['user'])) {
+//			if (isset($field['type']) && ($field['type']=='string'))
+				if (strncmp('field_', $name, 6) == 0)
+					$my_fields[$name] = $name;
+		}
+	}
+
+    $form['user_info']['date'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per data di nascita'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('date', 'field_data_di_nascita'),
+        '#description' => $this->t('Campo da usare per DATA DI NASCITA.'),
+    );
+	
+	$my_fields = array(''=>'nessun campo');
+	$field_map = \Drupal::entityManager()->getFieldMap();
+	$fields = $field_map['user'];
+	foreach ($fields as $name => $field) {
+		if (isset($field['bundles']['user']) && !empty($field['bundles']['user'])) {
+			if (isset($field['type']) && ($field['type']=='string' || $field['type']=='codice_fiscale_basic'))
+				if (strncmp('field_', $name, 6) == 0)
+					$my_fields[$name] = $name;
+		}
+	}
+
+    $form['user_info']['cf'] = array(
+        '#type' => 'select', 
+        '#title' => $this->t('Scegli il campo per codice fiscale'),
+		'#options' => $my_fields,
+        '#default_value' => $config->get('cf', 'field_codice_fiscale'),
+        '#description' => $this->t('Campo da usare per CODICE FISCALE.'),
+    );
+
+/*
     $form['user_info'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('User info and syncing'),
@@ -56,6 +153,7 @@ class SyncingSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Check if user name should be synchronized every time a user logs in.'),
       '#required' => FALSE,
     ];
+*/
     $form['user_info']['mail_attr'] = [
       '#type' => 'textfield',
       '#title' => $this->t('SimpleSAMLphp attribute to be used as email address for the user'),
@@ -105,15 +203,25 @@ class SyncingSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
     $config = $this->config('spid_pasw.settings');
-
+/*
     $config->set('unique_id', $form_state->getValue('unique_id'));
     $config->set('user_name', $form_state->getValue('user_name'));
     $config->set('sync.user_name', $form_state->getValue('user_name_sync'));
+*/
     $config->set('mail_attr', $form_state->getValue('mail_attr'));
     $config->set('sync.mail', $form_state->getValue('mail_attr_sync'));
     $config->set('role.population', $form_state->getValue('role_population'));
     $config->set('role.eval_every_time', $form_state->getValue('role_eval_every_time'));
     $config->set('autoenablesaml', $form_state->getValue('autoenablesaml'));
+
+//    $config->set('username_fiscalnumber', $form_state->getValue('username_fiscalnumber'));
+    $config->set('firstname', $form_state->getValue('firstname'));
+    $config->set('lastname', $form_state->getValue('lastname'));
+    $config->set('place', $form_state->getValue('place'));
+    $config->set('prov', $form_state->getValue('prov'));
+    $config->set('date', $form_state->getValue('date'));
+    $config->set('cf', $form_state->getValue('cf'));
+	
     $config->save();
   }
 

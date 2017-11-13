@@ -72,7 +72,8 @@ class SpidPaswBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $content = [
-      '#title' => $this->t('SimpleSAMLphp Auth Status'),
+//      '#title' => $this->t('SimpleSAMLphp Auth Status'),
+      '#title' => $this->t('Stato dello SPID'),
       '#cache' => [
         'contexts' => ['user'],
       ],
@@ -87,18 +88,14 @@ class SpidPaswBlock extends BlockBase implements ContainerFactoryPluginInterface
         ]);
       }
       else {
-		//PASW TODO spid button
-        //$label = $this->config->get('login_link_display_name');
-        $login_link = [
-          '#title' => $label,
-          '#type' => 'link',
-          '#url' => Url::fromRoute('spid_pasw.saml_login'),
-          '#attributes' => [
-            'title' => $label,
-            'class' => ['simplesamlphp-auth-login-link'],
-          ],
-        ];
+		$login_link =  array (
+			'#type' => 'inline_template',
+			'#template' => _spid_pasw_spidbutton('</form>'),
+			'#context' => array(),
+			'#weight' => 400,
+		);
         $content['link'] = $login_link;
+        $content['link']['#attached']['library'][] = 'spid_pasw/spid-button';
       }
     }
     else {

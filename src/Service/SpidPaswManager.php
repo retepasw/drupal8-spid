@@ -129,7 +129,30 @@ class SpidPaswManager {
    *   The authname.
    */
   public function getAuthname() {
-    return $this->getAttribute($this->config->get('unique_id'));
+    $fn = $this->getFiscalNumber();
+/*
+	if ($this->config->get('username_fiscalnumber'))
+	  return $fn;
+*/
+	if ($this->config->get('cf') == '')
+	  return $fn;
+    $account_search = \Drupal::service('entity.manager')->getStorage('user')->loadByProperties([$this->config->get('cf') => $fn]);
+	if ($account_search)
+	  return reset($account_search)->getUsername();
+    return $fn;
+  }
+
+  /**
+   * Gets the fiscalNumber of the user from the IdP.
+   *
+   * @return string
+   *   The fiscalNumber.
+   */
+  public function getFiscalNumber() {
+    $raw_fn = $this->getAttribute('fiscalNumber');
+	if (empty($raw_fn))
+      throw new SimplesamlphpAttributeException('Error in spid_pasw.module: no valid fiscalNumber.');
+    return substr($raw_fn, 6);
   }
 
   /**
@@ -137,10 +160,10 @@ class SpidPaswManager {
    *
    * @return string
    *   The name attribute.
-   */
   public function getDefaultName() {
     return $this->getAttribute($this->config->get('user_name'));
   }
+   */
 
   /**
    * Gets the mail attribute.
@@ -185,8 +208,8 @@ class SpidPaswManager {
         return $attributes[$attribute][0];
       }
     }
-
-    throw new SimplesamlphpAttributeException(sprintf('Error in spid_pasw.module: no valid "%s" attribute set.', $attribute));
+	return NULL;
+    //throw new SimplesamlphpAttributeException(sprintf('Error in spid_pasw.module: no valid "%s" attribute set.', $attribute));
   }
 
   /**
