@@ -35,7 +35,12 @@ process:
   activate: 'constants/activate' # Always migrate "activate" setting to false, to avoid lockouts
   auth_source: spid_pasw_authsource
   authlevel: spid_pasw_authlevel
-  login_link_display_name: spid_pasw_login_link_display_name
+  firstname: spid_pasw_firstname
+  lastname: spid_pasw_lastname
+  place: spid_pasw_place
+  date: spid_pasw_date
+  cf: spid_pasw_cf
+  province: spid_pasw_province
   role/population: spid_pasw_rolepopulation
   role/eval_every_time: spid_pasw_roleevaleverytime
   register_users: spid_pasw_registerusers
