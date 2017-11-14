@@ -122,9 +122,14 @@ class SimplesamlphpDrupalAuth {
   public function externalRegister($authname) {
     $account = FALSE;
 
+    // It's possible that a user with their username set to this authname
+    // already exists in the Drupal database.
+    $existing_user = $this->entityTypeManager->getStorage('user')->loadByProperties(['name' => $authname]);
+    $existing_user = $existing_user ? reset($existing_user) : FALSE;
+
     // First we check the admin settings for simpleSAMLphp and find out if we
     // are allowed to register users.
-    if (!$this->config->get('register_users')) {
+    if (!$this->config->get('register_users') && !$existing_user) {
 
       // We're not allowed to register new users on the site through simpleSAML.
       // We let the user know about this and redirect to the user/login page.
@@ -134,10 +139,6 @@ class SimplesamlphpDrupalAuth {
       return FALSE;
     }
 
-    // It's possible that a user with their username set to this authname
-    // already exists in the Drupal database.
-    $existing_user = $this->entityTypeManager->getStorage('user')->loadByProperties(['name' => $authname]);
-    $existing_user = $existing_user ? reset($existing_user) : FALSE;
     if ($existing_user) {
       // If auto-enable SAML is activated, link this user to SAML.
       if ($this->config->get('autoenablesaml')) {

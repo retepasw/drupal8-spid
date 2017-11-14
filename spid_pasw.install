@@ -69,13 +69,34 @@ function spid_pasw_requirements($phase) {
 }
 
 /**
+ * @PASW rileva percorso libreria installata con installatore specifico
+ * 
+ */
+function spid_pasw_get_lib_path()
+{
+	$result = NULL;
+	$orig = getcwd();
+	$root = $_SERVER['DOCUMENT_ROOT'];
+	chdir ($root);
+	if (file_exists('simplespidphp')) {
+		chdir('simplespidphp');
+		$result = getcwd();
+	} else if (is_writable('..') && file_exists('../simplespidphp')) {
+		chdir('../simplespidphp');
+		$result = getcwd();
+	}
+	chdir($orig);
+	return $result;
+}
+/**
  * Check if the SimpleSAMLphp library can be found.
  *
  * Fallback for when the library was not found via Composer.
  */
 function spid_pasw_check_library() {
   if (!class_exists('SimpleSAML_Configuration')) {
-    $dir = Settings::get('simplesamlphp_dir');
+	  $dir = spid_pasw_get_lib_path();
+      if ($dir == NULL) $dir = Settings::get('simplesamlphp_dir');
     include_once $dir . '/lib/_autoload.php';
   }
 }

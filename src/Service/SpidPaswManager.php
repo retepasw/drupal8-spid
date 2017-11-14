@@ -95,7 +95,9 @@ class SpidPaswManager {
             drupal_set_message(t('We\'re sorry. There was a problem. The issue has been logged for the administrator.'));
             drupal_goto('<front>');
         }
-        $options['saml:AuthnContextClassRef'] = 'https://www.spid.gov.it/SpidL1';
+		$authformat = 'https://www.spid.gov.it/%s';
+		$authlevel = $this->config->get('authlevel');
+        $options['saml:AuthnContextClassRef'] = sprintf($authformat, $authlevel);
         $options['samlp:RequestedAuthnContext'] = array("Comparison" => "minimum");
 		$options['ReturnTo'] = $uri;
 	
@@ -261,7 +263,8 @@ class SpidPaswManager {
    */
   protected function checkLibrary() {
     if (!class_exists('SimpleSAML_Configuration')) {
-      $dir = Settings::get('simplesamlphp_dir');
+	  $dir = _spid_pasw_get_lib_path();
+      if ($dir == NULL) $dir = Settings::get('simplesamlphp_dir');
       include_once $dir . '/lib/_autoload.php';
     }
   }
