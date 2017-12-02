@@ -16,15 +16,15 @@ in italiano.
 ------------------------------
 La prima (e indispensabile) cosa da fare è la sistemazione del file .htaccess nella
 root di Drupal 8. Aprire il file con un editor e dopo le righe
-
-  # Allow access to test-specific PHP files:
+```
+  \# Allow access to test-specific PHP files:
   RewriteCond %{REQUEST_URI} !/core/modules/system/tests/https?.php
-
+```
 inserire le righe:
-
+```
   # PASW SPID
   RewriteCond %{REQUEST_URI} !^/spid
-
+```
 Quindi scaricare (anche da www.github.com/pagolo) il pacchetto spidinst.zip
 ed estrarre il file install.php. COPIARE IL FILE install.php NELLA ROOT DANDOGLI
 IL NOME spidinst.php E LANCIARLO COSI:
@@ -34,12 +34,12 @@ www.scuolacooperativa.net/drupal7
 
 Nel caso non si usi l'installer dedicato occorrerà a questo punto intervenire
 per INSERIRE IN FONDO AL FILE sites/default/settings.php QUESTE RIGHE
-
+```
 /**
  * PASW SPID
  */
 $settings['simplesamlphp_dir'] = '<path_assoluto_libreria>';
-
+```
 DOVE <path_assoluto_libreria> STA PER PERCORSO ASSOLUTO DELLA
 CARTELLA della libreria, PER ES. /home/drupal8/simplesamlphp . Nel
 caso di dubbio consultare il provider.
