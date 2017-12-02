@@ -17,7 +17,7 @@ in italiano.
 La prima (e indispensabile) cosa da fare è la sistemazione del file .htaccess nella
 root di Drupal 8. Aprire il file con un editor e dopo le righe
 ```
-  \# Allow access to test-specific PHP files:
+  # Allow access to test-specific PHP files:
   RewriteCond %{REQUEST_URI} !/core/modules/system/tests/https?.php
 ```
 inserire le righe:
