@@ -21,6 +21,6 @@ logout_goto_url:
 user_register_original:
 sync:
   mail: true
-#  user_name: true
+username_fiscalnumber: false
 autoenablesaml: true
 debug: false

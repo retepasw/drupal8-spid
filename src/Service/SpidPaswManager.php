@@ -92,7 +92,7 @@ class SpidPaswManager {
         } elseif ((isset($_REQUEST['register_id']) && $_REQUEST['register_id'])) {
             $options['saml:idp'] = $_REQUEST['register_id'];
         } else {
-            drupal_set_message(t('We\'re sorry. There was a problem. The issue has been logged for the administrator.'));
+            drupal_set_message($this->t('We\'re sorry. There was a problem. The issue has been logged for the administrator.'));
             drupal_goto('<front>');
         }
 		$authformat = 'https://www.spid.gov.it/%s';
@@ -132,16 +132,22 @@ class SpidPaswManager {
    */
   public function getAuthname() {
     $fn = $this->getFiscalNumber();
-/*
 	if ($this->config->get('username_fiscalnumber'))
 	  return $fn;
-*/
 	if ($this->config->get('cf') == '')
 	  return $fn;
     $account_search = \Drupal::service('entity.manager')->getStorage('user')->loadByProperties([$this->config->get('cf') => $fn]);
 	if ($account_search)
 	  return reset($account_search)->getUsername();
-    return $fn;
+    $newname = ''; $i = 0;
+	do {
+	  $firstname = $this->getAttribute('name');
+	  $lastname = $this->getAttribute('familyName');
+	  $newname = _spid_pasw_remove_unwanted_chars(sprintf("%s.%s", strtolower($lastname), strtolower($firstname)));
+	  if ($i > 0) $newname = $newname	. '.' . $i;
+      $i++;
+	} while (\Drupal::service('entity.manager')->getStorage('user')->loadByProperties(['name' => $newname]));
+	return $newname;
   }
 
   /**
@@ -253,6 +259,11 @@ class SpidPaswManager {
     if (!$redirect_path) {
       $redirect_path = base_path();
     }
+    // Log user logout
+	if ($this->getAttribute('fiscalNumber')) {
+      $authname = $this->getAuthname();
+	  \SimpleSAML_Logger::alert('Utente ' . $authname . ' (' . $this->getFiscalNumber() . ')' . ' in uscita via SPID');
+	}
     $this->instance->logout($redirect_path);
   }
 

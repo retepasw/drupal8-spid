@@ -35,14 +35,14 @@ class SyncingSettingsForm extends ConfigFormBase {
       '#title' => $this->t('User info and syncing'),
       '#collapsible' => FALSE,
     );
-/*
+
     $form['user_info']['username_fiscalnumber'] = array(
         '#type' => 'checkbox', //checkbox
         '#title' => $this->t('Utilizza il codice fiscale come nome utente'),
         '#default_value' => $config->get('username_fiscalnumber', FALSE),
-        '#description' => $this->t('Determina se il nome utente deve coincidere con il codice fiscale.'),
+        '#description' => $this->t('Determina se il nome utente deve coincidere con il codice fiscale.<br />Altrimenti viene usata la formula "cognome.nome".'),
     );
-*/	
+
 	$my_fields = array(''=>'nessun campo');
 	$field_map = \Drupal::entityManager()->getFieldMap();
 	$fields = $field_map['user'];
@@ -214,7 +214,7 @@ class SyncingSettingsForm extends ConfigFormBase {
     $config->set('role.eval_every_time', $form_state->getValue('role_eval_every_time'));
     $config->set('autoenablesaml', $form_state->getValue('autoenablesaml'));
 
-//    $config->set('username_fiscalnumber', $form_state->getValue('username_fiscalnumber'));
+    $config->set('username_fiscalnumber', $form_state->getValue('username_fiscalnumber'));
     $config->set('firstname', $form_state->getValue('firstname'));
     $config->set('lastname', $form_state->getValue('lastname'));
     $config->set('place', $form_state->getValue('place'));

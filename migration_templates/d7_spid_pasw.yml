@@ -16,6 +16,7 @@ source:
     - spid_pasw_authsource_aruba
     - spid_pasw_authsource_namirial
     - spid_pasw_authsource_italia
+    - spid_pasw_username_fiscalnumber
     - spid_pasw_firstname
     - spid_pasw_lastname
     - spid_pasw_place
@@ -35,6 +36,7 @@ process:
   activate: 'constants/activate' # Always migrate "activate" setting to false, to avoid lockouts
   auth_source: spid_pasw_authsource
   authlevel: spid_pasw_authlevel
+  username_fiscalnumber: spid_pasw_username_fiscalnumber
   firstname: spid_pasw_firstname
   lastname: spid_pasw_lastname
   place: spid_pasw_place

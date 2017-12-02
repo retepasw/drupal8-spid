@@ -79,6 +79,9 @@ spid_pasw.settings:
         user_name:
           type: boolean
           label: 'Synchronize user_name on every login'
+    username_fiscalnumber:
+      type: boolean
+      label: 'Use fiscal number as username, else use "lastname.firstname"'
     autoenablesaml:
       type: boolean
       label: 'Automatically enable SAML authentication for existing users upon successful login'

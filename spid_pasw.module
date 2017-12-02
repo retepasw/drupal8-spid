@@ -164,6 +164,17 @@ function _spid_pasw_get_lib_path()
 }
 
 /**
+ * @param string original string
+ * @return string the input string without accents
+ */   
+function _spid_pasw_remove_unwanted_chars($str)
+{
+  $a = array(' ', chr(0xc0), chr(0xc1), chr(0xc2), chr(0xc3), chr(0xc4), chr(0xc5), chr(0xc6), chr(0xc7), chr(0xc8), chr(0xc9), chr(0xca), chr(0xcb), chr(0xcc), chr(0xcd), chr(0xce), chr(0xcf), chr(0xd0), chr(0xd1), chr(0xd2), chr(0xd3), chr(0xd4), chr(0xd5), chr(0xd6), chr(0xd8), chr(0xd9), chr(0xda), chr(0xdb), chr(0xdc), chr(0xdd), chr(0xdf), chr(0xe0), chr(0xe1), chr(0xe2), chr(0xe3), chr(0xe4), chr(0xe5), chr(0xe6), chr(0xe7), chr(0xe8), chr(0xe9), chr(0xea), chr(0xeb), chr(0xec), chr(0xed), chr(0xee), chr(0xef), chr(0xf1), chr(0xf2), chr(0xf3), chr(0xf4), chr(0xf5), chr(0xf6), chr(0xf8), chr(0xf9), chr(0xfa), chr(0xfb), chr(0xfc), chr(0xfd), chr(0xff), chr(0x41), chr(0x61), chr(0x41), chr(0x61), chr(0x41), chr(0x61), chr(0x43), chr(0x63), chr(0x43), chr(0x63), chr(0x43), chr(0x63), chr(0x43), chr(0x63), chr(0x44), chr(0x64), chr(0xd0), chr(0x64), chr(0x45), chr(0x65), chr(0x45), chr(0x65), chr(0x45), chr(0x65), chr(0x45), chr(0x65), chr(0x45), chr(0x65), chr(0x47), chr(0x67), chr(0x47), chr(0x67), chr(0x47), chr(0x67), chr(0x47), chr(0x67), chr(0x48), chr(0x68), chr(0x48), chr(0x68), chr(0x49), chr(0x69), chr(0x49), chr(0x69), chr(0x49), chr(0x69), chr(0x49), chr(0x69), chr(0x49), chr(0x69), chr(0x3f), chr(0x3f), chr(0x4a), chr(0x6a), chr(0x4b), chr(0x6b), chr(0x4c), chr(0x6c), chr(0x4c), chr(0x6c), chr(0x4c), chr(0x6c), chr(0x3f), chr(0x3f), chr(0x4c), chr(0x6c), chr(0x4e), chr(0x6e), chr(0x4e), chr(0x6e), chr(0x4e), chr(0x6e), chr(0x3f), chr(0x4f), chr(0x6f), chr(0x4f), chr(0x6f), chr(0x4f), chr(0x6f), chr(0xa6), chr(0xb6), chr(0x52), chr(0x72), chr(0x52), chr(0x72), chr(0x52), chr(0x72), chr(0x53), chr(0x73), chr(0x53), chr(0x73), chr(0x53), chr(0x73), chr(0xa9), chr(0xb9), chr(0x54), chr(0x74), chr(0x54), chr(0x74), chr(0x54), chr(0x74), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x57), chr(0x77), chr(0x59), chr(0x79), chr(0xbc), chr(0x5a), chr(0x7a), chr(0x5a), chr(0x7a), chr(0xae), chr(0xbe), chr(0x3f), chr(0x83), chr(0x4f), chr(0x6f), chr(0x55), chr(0x75), chr(0x41), chr(0x61), chr(0x49), chr(0x69), chr(0x4f), chr(0x6f), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x55), chr(0x75), chr(0x3f), chr(0x3f), chr(0x3f), chr(0x3f), chr(0x3f), chr(0x3f));
+  $b = array('_', 'A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
+  return str_replace($a, $b, $str);
+}
+
+/**
  * 
  * Generate the button source code according to AGID specs,
  * using AGID vendor folder.
@@ -173,6 +184,8 @@ function _spid_pasw_get_lib_path()
  *   A string containing the source code that generate the Login Button 
  */
 function _spid_pasw_spidbutton($closeform = '</form>') {
+	global $base_url;
+	
     $spid_ico_circle_svg = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-ico-circle-bb.svg';
     $spid_ico_circle_png = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-ico-circle-bb.png';
 
@@ -200,13 +213,13 @@ function _spid_pasw_spidbutton($closeform = '</form>') {
     $infocert_id = 'https://identity.infocert.it';
     $poste_id = 'https://posteid.poste.it';
     $tim_id = 'https://login.id.tim.it/affwebservices/public/saml2sso';
-    $sielte_id = 'http://paolo.casabozzo.net/simplesamlphp/www/saml2/idp/metadata.php'; // 'https://identity.sieltecloud.it';
-//    $sielte_id = 'https://identity.sieltecloud.it';
+//    $sielte_id = 'http://paolo.casabozzo.net/simplesamlphp/www/saml2/idp/metadata.php'; // 'https://identity.sieltecloud.it';
+    $sielte_id = 'https://identity.sieltecloud.it';
     $aruba_id = 'https://loginspid.aruba.it';
 	$namirial_id = 'https://idp.namirialtsp.com/idp';
 	$register_id = 'https://spid.register.it';
 
-    $formaction = '/saml_login';
+    $formaction = $base_url . '/saml_login';
 
     $spid_bottone = <<<BOTTONE
     <form name="spid_idp_access" action="$formaction" method="post">

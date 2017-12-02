@@ -98,6 +98,8 @@ class SimplesamlphpDrupalAuth {
     }
 
     if ($account) {
+	  // Log user login
+	  \SimpleSAML_Logger::alert('Utente ' . $authname . ' (' . $this->simplesamlAuth->getFiscalNumber() . ')' . ' in entrata via SPID');
       // Determine if roles should be evaluated upon login.
       if ($this->config->get('role.eval_every_time')) {
         $this->roleMatchAdd($account);
