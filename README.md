@@ -56,11 +56,13 @@ nostro canale github.
 
 # Installazione del modulo e sua configurazione
 -----------------------------------------------
-Installare questo modulo caricando la cartella (decompressa) spid_pasw
+Scaricare il modulo e decomprimerlo, all'interno si troverà la cartella
+drupal8-spid-master da rinominare in spid_pasw.
+Installare i modulo caricando la cartella (rinominata) spid_pasw
 nella cartella /modules di Drupal 8 e intervenendo come al solito nella
 amministrazione di Drupal (Estendi->elenco spuntare Spid_PASW e premere
 sul bottone installa). Una volta installato il modulo, entrare nella sua
-configurazione attivarlo (prima spunta e salva). Verificare a questo
+configurazione, attivarlo (prima spunta e salva). Verificare a questo
 punto che, entrando come utente anonimo e premendo su accedi compaia
 anche il bottone di SPID. Se non compare provare a pulire tutte le cache
 e ritentare.
