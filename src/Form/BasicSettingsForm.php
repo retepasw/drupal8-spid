@@ -4,6 +4,7 @@ namespace Drupal\spid_pasw\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Form builder for the spid_pasw basic settings form.
@@ -114,6 +115,7 @@ class BasicSettingsForm extends ConfigFormBase {
     $config->set('register_users', $form_state->getValue('register_users'));
     $config->set('header_no_cache', $form_state->getValue('header_no_cache'));
     $config->save();
+	Cache::invalidateTags(['rendered']);
   }
 
 }
