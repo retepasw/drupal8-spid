@@ -8,6 +8,7 @@
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
+use \Drupal\block\entity\Block;
 
 /**
  * Implements hook_install().
@@ -30,6 +31,9 @@ function spid_pasw_install() {
  */
 function spid_pasw_uninstall() {
 
+  // delete login block
+  $my_block = Block::load('simplesamlphpauthstatus');
+  if ($my_block) $my_block->delete();
   // Restore the original user registration directive.
   $user_settings = \Drupal::configFactory()->getEditable('user.settings');
   $config = \Drupal::config('spid_pasw.settings');

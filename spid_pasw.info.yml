@@ -1,14 +1,14 @@
 name: Spid Authentication PASW
 type: module
-description: Allows users to authenticate to a remote SAML identity provider (IdP) via a locally configured SimpleSAMLphp service point (SP).
+description: Allows users to authenticate to a remote SAML/SPID identity provider (IdP) via a locally configured SimpleSAMLphp service point (SP).
 # core: 8.x
 configure: spid_pasw.admin_settings
 dependencies:
  - user
  - externalauth
 
-# Information added by Drupal.org packaging script on 2017-04-13
-version: '8.x-0.3-beta'
+# Information added on 2017/12/12
+version: '8.x-0.4-beta'
 core: '8.x'
 project: 'spid_pasw'
 datestamp: 1492065547

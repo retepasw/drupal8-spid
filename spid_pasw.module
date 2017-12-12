@@ -183,7 +183,7 @@ function _spid_pasw_remove_unwanted_chars($str)
  * @return 
  *   A string containing the source code that generate the Login Button 
  */
-function _spid_pasw_spidbutton($closeform = '</form>') {
+function _spid_pasw_spidbutton() {
 	global $base_url;
 	
     $spid_ico_circle_svg = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-ico-circle-bb.svg';
@@ -261,28 +261,10 @@ function _spid_pasw_spidbutton($closeform = '</form>') {
             </li>
             </ul>
         </div>
-    $closeform
+    </form>
 BOTTONE;
 
     return $spid_bottone;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function spid_pasw_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Return without executing if the functionality is not enabled.
-  if (!\Drupal::config('spid_pasw.settings')->get('activate')) {
-    return;
-  }
-
-	$form['simplesamlphp_auth_login_link'] =  array (
-			'#type' => 'inline_template',
-			'#template' => '</form><strong>oppure</strong>&nbsp;<br />' . _spid_pasw_spidbutton(''),
-			'#context' => array(),
-			'#weight' => 400,
-		);
-	$form['simplesamlphp_auth_login_link']['#attached']['library'][] = 'spid_pasw/spid-button';
 }
 
 /**
@@ -312,3 +294,45 @@ function spid_pasw_user_form_submit($form, FormStateInterface $form_state) {
     $authmap->delete($form_state->getValue('uid'));
   }
 }
+
+/*
+CODE TO DELETE A Block from region 
+----------------------------------
+use \Drupal\block\entity\Block;
+	$my_block = Block::load('simplesamlphpauthstatus');
+	if ($my_block->getRegion() == 'content') $my_block->delete();
+----------------------------------
+CODE TO CREATE INSTANCE
+----------------------------
+
+$vis_config = 
+[
+  'request_path' => 
+    [
+       'id' => 'request_path',
+       'pages' =>  '/user/login',
+       'negate' => 0,
+       'context_mapping' => [],
+    ]
+];
+$plugin_id = 'spid_pasw_block';$theme ='bartik';
+$blockEntityManager = \Drupal::service('entity.manager')->getStorage('block');
+$my_block = $blockEntityManager->create(
+  array(
+      'id'=> 'simplesamlphpauthstatus',
+      'plugin' => $plugin_id,
+	  'settings' => [
+	    'id' => 'spid_pasw_block',
+		'label' => 'Oppure',
+		'provider' => 'spid_pasw',
+		'label_display' => 'visible',
+	  ],
+	  'region' => 'content',
+      'theme' => $theme,
+	  'visibility' => $vis_config,
+	  'weight' => 0,
+  )
+);
+$my_block->save();
+-----------------------------------
+*/

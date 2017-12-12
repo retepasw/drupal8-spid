@@ -5,6 +5,7 @@ namespace Drupal\spid_pasw\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
+use \Drupal\block\entity\Block;
 
 /**
  * Form builder for the spid_pasw basic settings form.
@@ -115,7 +116,47 @@ class BasicSettingsForm extends ConfigFormBase {
     $config->set('register_users', $form_state->getValue('register_users'));
     $config->set('header_no_cache', $form_state->getValue('header_no_cache'));
     $config->save();
+	$this->saveBlock();
 	Cache::invalidateTags(['rendered']);
+  }
+  
+  public function saveBlock() {
+	$blockEntityManager = \Drupal::service('entity.manager')->getStorage('block');
+	$theme = \Drupal::config('system.theme')->get('default');
+	$plugin_id = 'spid_pasw_block';
+	$vis_config = 
+    [
+      'request_path' => 
+      [
+         'id' => 'request_path',
+         'pages' =>  '/user/login',
+         'negate' => 0,
+         'context_mapping' => [],
+      ]
+    ];
+
+	$my_block = Block::load('simplesamlphpauthstatus');
+	if ($my_block) {
+      return;
+	}
+	
+    $my_block = $blockEntityManager->create(
+      array(
+        'id'=> 'simplesamlphpauthstatus',
+        'plugin' => $plugin_id,
+	    'settings' => [
+	      'id' => 'spid_pasw_block',
+		  'label' => t('Alternativamente'),
+		  'provider' => 'spid_pasw',
+		  'label_display' => 'visible',
+	    ],
+	    'region' => 'content',
+        'theme' => $theme,
+	    'visibility' => $vis_config,
+	    'weight' => 100,
+      )
+    );
+    $my_block->save();
   }
 
 }

@@ -73,7 +73,7 @@ class SpidPaswBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function build() {
     $content = [
 //      '#title' => $this->t('SimpleSAMLphp Auth Status'),
-      '#title' => $this->t('Stato dello SPID'),
+//      '#title' => $this->t('Stato dello SPID'),
       '#cache' => [
         'contexts' => ['user'],
       ],
@@ -90,7 +90,7 @@ class SpidPaswBlock extends BlockBase implements ContainerFactoryPluginInterface
       else {
 		$login_link =  array (
 			'#type' => 'inline_template',
-			'#template' => _spid_pasw_spidbutton('</form>'),
+			'#template' => _spid_pasw_spidbutton(),
 			'#context' => array(),
 			'#weight' => 400,
 		);

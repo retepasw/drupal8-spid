@@ -8,6 +8,10 @@ La procedura di installazione prevede i seguenti passi:
 3) Installazione del modulo externalauth-pasw
 4) Installazione del modulo e sua configurazione
 
+NOTA IMPORTANTE: se si aggiorna il modulo dalla versione 0.3beta procedere
+come al solito ma ricordarsi di entrare in configurazione (Impostazioni di
+base) e salvare, anche senza nessuna modifica.
+
 NOTA: il modulo è in versione beta pienamente funzionante, tuttavia
 alcune stringhe della configurazione non sono ancora state tradotte
 in italiano.
