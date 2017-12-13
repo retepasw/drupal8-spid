@@ -43,6 +43,12 @@ class BasicSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('activate'),
       '#description' => $this->t('Checking this box before configuring the module could lock you out of Drupal.'),
     ];
+    $form['basic']['spid-button'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Attiva bottone SPID'),
+      '#default_value' => FALSE,
+      '#description' => $this->t('Selezionando questa casella verrà attivato il bottone SPID se non già presente.'),
+    ];
     $form['basic']['auth_source'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Authentication source for this SP'),
@@ -116,8 +122,10 @@ class BasicSettingsForm extends ConfigFormBase {
     $config->set('register_users', $form_state->getValue('register_users'));
     $config->set('header_no_cache', $form_state->getValue('header_no_cache'));
     $config->save();
-	$this->saveBlock();
-	Cache::invalidateTags(['rendered']);
+    if ($form_state->getValue('spid-button')) {
+      $this->saveBlock();
+    }
+    Cache::invalidateTags(['rendered']);
   }
   
   public function saveBlock() {
@@ -136,8 +144,11 @@ class BasicSettingsForm extends ConfigFormBase {
     ];
 
 	$my_block = Block::load('simplesamlphpauthstatus');
-	if ($my_block) {
+	if ($my_block && $my_block->getTheme() == $theme) {
       return;
+	}
+	if ($my_block) {
+      $my_block->delete();
 	}
 	
     $my_block = $blockEntityManager->create(

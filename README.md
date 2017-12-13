@@ -8,9 +8,9 @@ La procedura di installazione prevede i seguenti passi:
 3) Installazione del modulo externalauth-pasw
 4) Installazione del modulo e sua configurazione
 
-NOTA IMPORTANTE: se si aggiorna il modulo dalla versione 0.3beta procedere
-come al solito ma ricordarsi di entrare in configurazione (Impostazioni di
-base) e salvare, anche senza nessuna modifica.
+NOTA IMPORTANTE: se scompare il bottone SPID dalla pagina di login,
+ricordarsi di attivarlo dalla configurazione, altrimenti è possibile
+posizionare a mano il blocco nella posizione voluta.
 
 NOTA: il modulo è in versione beta pienamente funzionante, tuttavia
 alcune stringhe della configurazione non sono ancora state tradotte
@@ -69,7 +69,7 @@ sul bottone installa). Una volta installato il modulo, entrare nella sua
 configurazione, attivarlo (prima spunta e salva). Verificare a questo
 punto che, entrando come utente anonimo e premendo su accedi compaia
 anche il bottone di SPID. Se non compare provare a pulire tutte le cache
-e ritentare.
+e ritentare oppure attivare il bottone dalla configurazione.
 Quando tutto è funzionante occorrerà anche ricordarsi di avviare la
 procedura amministrativa Agid per il riconoscimento finale del servizio.
 
