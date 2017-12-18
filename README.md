@@ -8,6 +8,10 @@ La procedura di installazione prevede i seguenti passi:
 3) Installazione del modulo externalauth-pasw
 4) Installazione del modulo e sua configurazione
 
+*ATTENZIONE*: quando si aggiorna il core di Drupal 8, questo modulo
+*deve essere disinstallato*. Reinstallare e riattivare il modulo
+ad aggiornamento avvenuto.
+
 NOTA IMPORTANTE: se scompare il bottone SPID dalla pagina di login,
 ricordarsi di attivarlo dalla configurazione, altrimenti è possibile
 posizionare a mano il blocco nella posizione voluta.
