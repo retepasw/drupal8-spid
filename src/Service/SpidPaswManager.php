@@ -91,6 +91,8 @@ class SpidPaswManager {
             $options['saml:idp'] = $_REQUEST['namirial_id'];
         } elseif ((isset($_REQUEST['register_id']) && $_REQUEST['register_id'])) {
             $options['saml:idp'] = $_REQUEST['register_id'];
+        } elseif ((isset($_REQUEST['intesa_id']) && $_REQUEST['intesa_id'])) {
+            $options['saml:idp'] = $_REQUEST['intesa_id'];
         } else {
             drupal_set_message($this->t('We\'re sorry. There was a problem. The issue has been logged for the administrator.'));
             drupal_goto('<front>');
