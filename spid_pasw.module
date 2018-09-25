@@ -160,6 +160,8 @@ function _spid_pasw_get_lib_path()
 		$result = getcwd();
 	}
 	chdir($orig);
+  //echo 'result='.$result;
+  //exit;
 	return $result;
 }
 
@@ -185,7 +187,7 @@ function _spid_pasw_remove_unwanted_chars($str)
  */
 function _spid_pasw_spidbutton() {
 	global $base_url;
-	
+
     $spid_ico_circle_svg = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-ico-circle-bb.svg';
     $spid_ico_circle_png = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-ico-circle-bb.png';
 
@@ -210,6 +212,9 @@ function _spid_pasw_spidbutton() {
     $spid_idp_registerid_svg = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-idp-spiditalia.svg';
     $spid_idp_registerid_png = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-idp-spiditalia.png';
 
+    $spid_idp_intesaid_svg = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-idp-intesaid.svg';
+    $spid_idp_intesaid_png = '/' . drupal_get_path('module', "spid_pasw") . '/vendor/agid/img/spid-idp-intesaid.png';
+
     $infocert_id = 'https://identity.infocert.it';
     $poste_id = 'https://posteid.poste.it';
     $tim_id = 'https://login.id.tim.it/affwebservices/public/saml2sso';
@@ -218,6 +223,7 @@ function _spid_pasw_spidbutton() {
     $aruba_id = 'https://loginspid.aruba.it';
 	$namirial_id = 'https://idp.namirialtsp.com/idp';
 	$register_id = 'https://spid.register.it';
+    $intesa_id =  'https://spid.intesa.it';
 
     $formaction = $base_url . '/saml_login';
 
@@ -250,6 +256,9 @@ function _spid_pasw_spidbutton() {
                 <li class="spid-idp-button-link">
                     <button class="idp-button-idp-logo" name="register_id" type="submit" value="$register_id"><span class="spid-sr-only">SpidItalia ID</span><img class="spid-idp-button-logo" src="$spid_idp_registerid_png" onerror="this.src='$spid_idp_registerid_svg'; this.onerror=null;" alt="SpidItalia ID" /></button>
                 </li>
+          <li class="spid-idp-button-link">
+              <button class="idp-button-idp-logo" name="intesa_id" type="submit" value="$intesa_id"><span class="spid-sr-only">Intesa ID</span><img class="spid-idp-button-logo" src="$spid_idp_intesaid_png" onerror="this.src='$spid_idp_intesaid_svg'; this.onerror=null;" alt="Intesa ID" /></button>
+          </li>
                 <li class="spid-idp-support-link">
                     <a href="http://www.spid.gov.it">Maggiori info</a>
                 </li>

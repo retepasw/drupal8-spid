@@ -61,9 +61,9 @@ class SpidPaswManager {
     else {
       $this->instance = $instance;
     }
-
     if (!$config) {
       $this->simplesamlConfig = \SimpleSAML_Configuration::getInstance();
+//echo "<pre>";print_r($this->simplesamlConfig);exit;
     }
     else {
       $this->simplesamlConfig = $config;
